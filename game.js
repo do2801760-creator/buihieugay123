@@ -1314,23 +1314,34 @@ function damagePlayer(damage) {
 // ============================================================
 
 function playerDeath() {
-
     gameRunning = false;
-
     gameOver = true;
 
-    gameOverScreen.classList.remove(
-        "hidden"
-    );
+    // RESET LEVEL
+    player.level = 1;
+    player.exp = 0;
+    player.expNeed = 50;
 
-    player.gold =
-        Math.max(
-            0,
-            player.gold -
-            20
-        );
+    // RESET chỉ số cơ bản
+    player.maxHp = 120;
+    player.hp = 120;
+    player.damage = 12;
+    player.speed = 2.8;
+    player.crit = 0.05;
+    player.defense = 0;
+    player.lifesteal = 0;
 
+    // Mất 20 vàng khi chết
+    player.gold = Math.max(0, player.gold - 20);
+
+    // Lưu lại
     savePlayer();
+
+    // Hiện màn hình chết
+    gameOverScreen.classList.remove("hidden");
+
+    updateHUD();
+    updateLobby();
 }
 
 
