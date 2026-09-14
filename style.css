@@ -745,3 +745,36 @@ button {
         transform: translateY(0);
     }
 }
+/* ================= CHỐNG ZOOM TRÊN ĐIỆN THOẠI ================= */
+
+html,
+body,
+#game,
+button,
+#mobileControls {
+    touch-action: manipulation;
+}
+
+button {
+    -webkit-user-select: none;
+    user-select: none;
+
+    -webkit-touch-callout: none;
+
+    -webkit-tap-highlight-color: transparent;
+
+    touch-action: manipulation;
+}
+
+/* Nút điều khiển game không cho trình duyệt xử lý gesture */
+#mobileControls,
+#mobileControls button {
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* Không cho nút bị phóng to khi giữ */
+#mobileControls button:active {
+    transform: scale(0.94);
+}
