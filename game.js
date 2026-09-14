@@ -329,14 +329,109 @@ window.addEventListener("keyup", event => {
 });
 
 
-document
-    .getElementById("attackMobile")
-    .addEventListener("click", attack);
+// ================= MOBILE CONTROLS =================
 
+function setupMobileButton(button, key) {
+    if (!button) return;
 
-document
-    .querySelectorAll("[data-key]")
-    .forEach(button => {
+    const press = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        keys[key] = true;
+
+        try {
+            button.setPointerCapture(e.pointerId);
+        } catch (_) {}
+    };
+
+    const release = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        keys[key] = false;
+    };
+
+    button.addEventListener("pointerdown", press, { passive: false });
+    button.addEventListener("pointerup", release, { passive: false });
+    button.addEventListener("pointercancel", release, { passive: false });
+    button.addEventListener("lostpointercapture", () => {
+        keys[key] = false;
+    });
+}
+
+document.querySelectorAll("#mobileControls [data-key]").forEach(button => {
+    setupMobileButton(
+        button,
+        button.dataset.key.toLowerCase()
+    );
+});
+
+const attackButton = document.getElementById("attackMobile");
+
+if (attackButton) {
+
+    const attackPress = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        attack();
+    };
+
+    attackButton.addEventListener(
+        "pointerdown",
+        attackPress,
+        { passive: false }
+    );
+
+    attackButton.addEventListener(
+        "touchstart",
+        e => {
+            e.preventDefault();
+            e.stopPropagation();
+        },
+        { passive: false }
+    );
+
+    attackButton.addEventListener(
+        "contextmenu",
+        e => e.preventDefault()
+    );
+}
+
+// Chặn các gesture gây zoom trên khu vực game
+document.addEventListener(
+    "touchstart",
+    e => {
+        if (e.touches.length > 1) {
+            e.preventDefault();
+        }
+    },
+    { passive: false }
+);
+
+// Chặn double tap zoom
+let lastTouchEnd = 0;
+
+document.addEventListener(
+    "touchend",
+    e => {
+        const now = Date.now();
+
+        if (now - lastTouchEnd <= 300) {
+            e.preventDefault();
+        }
+
+        lastTouchEnd = now;
+    },
+    { passive: false }
+);
+
+// Không cho menu chuột phải trên nút game
+document.querySelectorAll("button").forEach(button => {
+    button.addEventListener("contextmenu", e => {
+        e.preventDefault();
+    });
+});
 
         const key =
             button.dataset.key.toLowerCase();
