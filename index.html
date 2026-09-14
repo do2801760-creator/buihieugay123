@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Dungeon</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div id="game">
+
+    <!-- ================= SẢNH ================= -->
+    <div id="lobby" class="screen">
+
+        <div class="game-title">
+            PIXEL DUNGEON
+        </div>
+
+        <div class="lobby-world">
+
+            <div class="npc npc-blacksmith">
+                <div class="npc-head"></div>
+                <div class="npc-body"></div>
+                <span>⚒️ Thợ rèn</span>
+            </div>
+
+            <div class="hero-preview">
+                <div class="hero-sprite"></div>
+                <div class="hero-name">
+                    Chiến Binh
+                </div>
+            </div>
+
+            <div class="npc npc-merchant">
+                <div class="npc-head"></div>
+                <div class="npc-body"></div>
+                <span>🛒 Thương nhân</span>
+            </div>
+
+        </div>
+
+        <div class="lobby-panel">
+
+            <div class="player-info">
+                <b>⚔️ Chiến Binh</b>
+
+                <div>
+                    Level:
+                    <span id="lobbyLevel">1</span>
+                </div>
+
+                <div>
+                    💰
+                    <span id="lobbyGold">0</span>
+                </div>
+
+                <div>
+                    🗡️
+                    <span id="lobbyWeapon">
+                        Kiếm gỗ
+                    </span>
+                </div>
+            </div>
+
+            <button id="playBtn" class="main-button">
+                ⚔️ VÀO DUNGEON
+            </button>
+
+            <button id="shopBtn">
+                🛒 SHOP
+            </button>
+
+            <button id="inventoryBtn">
+                🎒 KHO ĐỒ
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= DUNGEON ================= -->
+
+    <div id="dungeon" class="screen hidden">
+
+        <div id="topHUD">
+
+            <div class="hud-player">
+
+                <div class="mini-hero"></div>
+
+                <div>
+
+                    <b>
+                        Chiến Binh
+                    </b>
+
+                    <div>
+                        Lv.
+                        <span id="levelText">
+                            1
+                        </span>
+                    </div>
+
+                    <div class="hp-bar">
+                        <div id="hpBar"></div>
+                    </div>
+
+                    <div class="exp-bar">
+                        <div id="expBar"></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="hud-stats">
+
+                ❤️ <span id="hpText">100</span>
+
+                ⚔️ <span id="damageText">10</span>
+
+                💰 <span id="goldText">0</span>
+
+                🌊 Wave
+                <span id="waveText">1</span>
+
+            </div>
+
+        </div>
+
+
+        <canvas
+            id="gameCanvas"
+            width="960"
+            height="540">
+        </canvas>
+
+
+        <button
+            id="backLobbyBtn"
+            class="back-button">
+            🏠
+        </button>
+
+
+        <!-- MOBILE -->
+
+        <div id="mobileControls">
+
+            <div class="movement">
+
+                <button data-key="ArrowLeft">
+                    ◀
+                </button>
+
+                <button data-key="ArrowUp">
+                    ▲
+                </button>
+
+                <button data-key="ArrowDown">
+                    ▼
+                </button>
+
+                <button data-key="ArrowRight">
+                    ▶
+                </button>
+
+            </div>
+
+            <button
+                id="attackMobile"
+                class="attack-button">
+                ⚔
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= LEVEL UP ================= -->
+
+    <div
+        id="levelUp"
+        class="modal hidden">
+
+        <div class="level-box">
+
+            <h1>
+                ⭐ LEVEL UP!
+            </h1>
+
+            <p>
+                Chọn một nâng cấp
+            </p>
+
+            <div id="upgradeChoices"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= SHOP ================= -->
+
+    <div
+        id="shop"
+        class="modal hidden">
+
+        <div class="menu-box">
+
+            <h1>
+                🛒 SHOP
+            </h1>
+
+            <div class="shop-gold">
+                💰
+                <span id="shopGold">
+                    0
+                </span>
+            </div>
+
+            <div id="shopItems"></div>
+
+            <button
+                id="closeShop">
+                ĐÓNG
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= INVENTORY ================= -->
+
+    <div
+        id="inventory"
+        class="modal hidden">
+
+        <div class="menu-box">
+
+            <h1>
+                🎒 KHO ĐỒ
+            </h1>
+
+            <div id="inventoryItems"></div>
+
+            <button
+                id="closeInventory">
+                ĐÓNG
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= GAME OVER ================= -->
+
+    <div
+        id="gameOver"
+        class="modal hidden">
+
+        <div class="menu-box">
+
+            <h1>
+                💀 BẠN ĐÃ CHẾT
+            </h1>
+
+            <p>
+                Dungeon đã kết thúc.
+            </p>
+
+            <button
+                id="restartBtn">
+                🔄 CHƠI LẠI
+            </button>
+
+            <button
+                id="gameOverLobby">
+                🏠 VỀ SẢNH
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="game.js"></script>
+
+</body>
+</html>
